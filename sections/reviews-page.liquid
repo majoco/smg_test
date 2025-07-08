@@ -16,7 +16,7 @@
   <h1 class="text-3xl font-bold mb-6">{{ section.settings.title }}</h1>
 
   <div id="reviews-list" class="mb-8">
-    <!-- Aquí se mostrarán las reseñas -->
+    
     {% assign reviews = shop.metafields.custom.general_reviews.value | parse_json %}
     {% if reviews and reviews.size > 0 %}
       <ul class="space-y-4">
