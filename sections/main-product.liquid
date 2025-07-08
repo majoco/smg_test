@@ -2253,3 +2253,28 @@
   ]
 }
 {% endschema %}
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+      document.querySelectorAll('form[action="/cart/add"]').forEach(function(form) {
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+
+          const formData = new FormData(form);
+
+          fetch('/cart/clear.js', {
+            method: 'POST',
+          }).then(function() {
+            return fetch('/cart/add.js', {
+              method: 'POST',
+              body: formData
+            });
+          }).then(function() {
+            window.location.href = '/cart';
+          });
+        });
+      });
+    });
+  </script>

@@ -374,7 +374,7 @@
     {%- endif -%}
   </body>
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    /*document.addEventListener("DOMContentLoaded", function() {
       document.querySelectorAll('form[action="/cart/add"]').forEach(function(form) {
         form.addEventListener('submit', function(e) {
           e.preventDefault();
@@ -393,7 +393,40 @@
           });
         });
       });
-    });
+    });*/
   </script>
+
+  <script>
+  // Reemplaza este ID con el ID real de la variante del producto
+  const variantId = 43040877314136;
+
+  // Primero vaciamos el carrito
+  fetch('/cart/clear.js', {
+    method: 'POST',
+  })
+  .then(() => {
+    // Luego agregamos el producto deseado
+    return fetch('/cart/add.js', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: variantId,
+        quantity: 1
+      })
+    });
+  })
+  .then(response => {
+    if (response.ok) {
+      // Redirige al carrito después de agregar el producto
+      window.location.href = '/cart';
+    } else {
+      return response.json().then(data => {
+        console.error('Error al agregar producto:', data);
+      });
+    }
+  });
+</script>
 
 </html>
