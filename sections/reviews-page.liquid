@@ -1,0 +1,53 @@
+{% schema %}
+{
+  "name": "Reviews Page",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título de la sección",
+      "default": "Reseñas de nuestros clientes"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="page-width py-8">
+  <h1 class="text-3xl font-bold mb-6">{{ section.settings.title }}</h1>
+
+  <div id="reviews-list" class="mb-8">
+    <!-- Aquí se mostrarán las reseñas -->
+    {% assign reviews = shop.metafields.custom.general_reviews.value | parse_json %}
+    {% if reviews and reviews.size > 0 %}
+      <ul class="space-y-4">
+        {% for review in reviews %}
+          <li class="border p-4 rounded shadow">
+            <p class="font-semibold">{{ review.name }} - ⭐ {{ review.rating }}/5</p>
+            <p class="mt-2">{{ review.comment }}</p>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No hay reseñas aún.</p>
+    {% endif %}
+  </div>
+
+  <div id="review-form">
+    <h2 class="text-2xl font-semibold mb-4">Agrega tu reseña</h2>
+    <form method="post" action="/contact#reviews">
+      <input type="hidden" name="form_type" value="contact" />
+      <input type="hidden" name="utf8" value="✓" />
+
+      <div class="mb-4">
+        <input type="text" name="contact[Name]" placeholder="Tu nombre" class="border rounded p-2 w-full" required>
+      </div>
+      <div class="mb-4">
+        <input type="number" name="contact[Rating]" placeholder="Calificación (1-5)" class="border rounded p-2 w-full" min="1" max="5" required>
+      </div>
+      <div class="mb-4">
+        <textarea name="contact[Message]" placeholder="Tu comentario" class="border rounded p-2 w-full" rows="4" required></textarea>
+      </div>
+      <button type="submit" class="bg-black text-white py-2 px-4 rounded">Enviar Reseña</button>
+    </form>
+  </div>
+</div>

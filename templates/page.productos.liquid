@@ -1,0 +1,22 @@
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-4">
+  {% for product in collections['paquete-de-horas'].products %}
+    {% unless product.title == excluded_title %}
+      <div class="border rounded-xl p-4 shadow hover:shadow-lg transition">
+        <a href="{{ product.url }}">
+          <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}" class="mb-3 rounded-lg">
+        </a>
+        <h2 class="text-lg font-semibold mb-2">{{ product.title }}</h2>
+        <p class="mb-2">{{ product.price | money }}</p>
+
+        <form method="post" action="/cart/add">
+          <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+          <button type="submit" class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition">
+            Agregar al carrito
+          </button>
+        </form>
+      </div>
+    {% endunless %}
+  {% endfor %}
+</div>
+
+
